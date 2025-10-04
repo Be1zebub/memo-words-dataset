@@ -1,11 +1,9 @@
 const fs = require("fs")
 const path = require("path")
 
-// __dirname доступен сразу в CJS
 const fossDir = path.join(__dirname, "foss-acronyms", "data")
 const wikipediaPath = path.join(__dirname, "wikipedia-abbr-db.json")
 
-// проверяем, существует ли файл
 if (!fs.existsSync(wikipediaPath)) {
 	console.error("Файл wikipedia-abbr-db.json не найден!")
 	process.exit(1)
@@ -51,15 +49,13 @@ const filteredList = mergedList.filter(
 )
 const howMuchFiltered = mergedList.length - filteredList.length
 
-fs.mkdirSync(path.join(__dirname, "dist"), { recursive: true })
-
 fs.writeFileSync(
-	path.join(__dirname, "dist", "abbr-db.json"),
+	path.join(__dirname, "dist", "merged-abbrs.json"),
 	JSON.stringify(filteredList),
 	"utf8"
 )
 
-console.log("Merge finished! Файл abbr-db.json создан.")
+console.log("Merge finished! Файл merged-abbrs.json создан.")
 console.log(
 	`Количество уникальных акронимов: ${filteredList.length} +${
 		mergedList.length - wikipediaList.length
